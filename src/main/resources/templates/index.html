@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
+</head>
+
+<body>
+
+	<header th:insert="fragments/nav :: navbar-menu"></header>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-4 offset-md-4 alert alert-success mt-2"
+				sec:authorize="isAuthenticated()">
+				<span>Bienvenido</span>&nbsp;<span sec:authentication="name"></span>
+			</div>
+			<div th:each="publicacion : ${publicaciones}" class="col"></div>
+		</div>
+	</div>
+
+
+
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

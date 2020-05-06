@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<header th:insert="fragments/nav :: navbar-menu"></header>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-4 offset-md-4 rounded border border-secondary p-4 mt-3">
+				<div class="row">
+					<div class="col-4"><img th:src="@{/img/avatar.png}" height="200" width="200" class="img-thumbnail"></div>
+					<div class="col-8 my-auto"><b>Nombre: </b><span th:text="${user.nombre}"></span></div>
+					<div class="col-12"><b>Nombre de usuario: </b><span th:text="${user.username}"></span></div>
+					<div class="col-12"><b>Email: </b><span th:text="${user.email}"></span></div>
+					<div class="col-12">
+						<a class="btn btn-block btn-warning" disabled>Editar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.js}"></script>
+
+</body>
+</html>

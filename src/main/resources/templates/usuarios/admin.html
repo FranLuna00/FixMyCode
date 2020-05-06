@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
+<title>Iniciar sesión</title>
+</head>
+<body>
+
+	<header th:insert="fragments/nav :: navbar-menu"></header>
+
+	<div class="container">
+		<div class="row">
+			<table class="table table-striped">
+				<tr>
+				<th>Nombre de usuario</th>
+				<th>Accion</th>
+				</tr>
+				<tr th:each="usuario : ${usuarios}">
+					<td th:text="${usuario.username}"></td>
+					<td>
+						<button type="button">Borrar</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+	<script th:src="@{/bootstrap/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/bootstrap/js/popper.min.js}"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+</html>

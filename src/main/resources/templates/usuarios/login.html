@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
+<title>Iniciar sesión</title>
+</head>
+<body>
+
+	<header th:insert="fragments/nav :: navbar-menu"></header>
+
+	<div class="container">
+		<div class="row">
+
+			<form th:action="@{/login}"  method="post"
+				class="col-12 col-md-6 offset-md-3 rounded border border-info p-4 mt-3">
+
+				<div th:if="${param.error}" class="alert alert-danger">Usuario
+					o contraseña incorrectos</div>
+				<div th:if="${param.logout}" class="alert alert-success">Se ha
+					cerrado sesión</div>
+				<div class="form-group">
+					<label class="lead" for="username">Nombre de usuario</label> <input
+						type="text" class="form-control" name="username" id="username">
+				</div>
+
+				<div class="form-group">
+					<label class="lead" for="password">Contraseña</label> <input
+						type="password" class="form-control" name="password" id="password">
+				</div>
+
+				<button type="submit" class="btn btn-block btn-success mt-4">Confirmar</button>
+
+			</form>
+		</div>
+	</div>
+
+
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>
