@@ -17,7 +17,15 @@
 				sec:authorize="isAuthenticated()">
 				<span>Bienvenido</span>&nbsp;<span sec:authentication="name"></span>
 			</div>
-			<div th:each="publicacion : ${publicaciones}" class="col"></div>
+			<div th:each="publicacion : ${publicaciones}" class="col-12 border border-primary rounded-lg my-2">
+				<a class="btn text-dark" th:href="@{/publicaciones/{id} (id = ${publicacion.id})}">
+					<span class="h6" th:text="${publicacion.titulo}"></span>&emsp;
+					<span class="lead">por&nbsp;</span><span class="lead" th:text="${publicacion.usuario.nombre}"></span>&emsp;<span class="lead" th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MM-yyyy')}"></span>
+				</a>
+				<div>
+				<div class="badge badge-primary" th:each="etiqueta : ${publicacion.etiquetas}" th:text="${etiqueta}"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 

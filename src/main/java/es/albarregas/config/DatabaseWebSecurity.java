@@ -50,9 +50,10 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests() // Los recursos estáticos no requieren autenticación
 				.antMatchers("/bootstrap/**", "/css/**", "/img/**", "/js/**").permitAll()
 				// Las vistas públicas no requieren autenticación
-				.antMatchers("/", "/usuarios/registro", "/usuarios/guardar", "/logout").permitAll()
+				.antMatchers("/", "/usuarios/**", "/logout", "/publicaciones/**").permitAll()
 				//Vista de gestión de usuarios requiere admin
 				.antMatchers("/usuarios/admin").hasAnyAuthority("ADMIN")
+				.antMatchers("/publicaciones/nueva").hasAnyAuthority("REGISTRADO", "ADMIN")
 				// Todas las demás URLs de la Aplicación requieren autenticación
 				.anyRequest().authenticated()
 				// El formulario de Login no requiere autenticacion

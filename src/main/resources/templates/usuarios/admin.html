@@ -20,8 +20,14 @@
 				</tr>
 				<tr th:each="usuario : ${usuarios}">
 					<td th:text="${usuario.username}"></td>
-					<td>
-						<button type="button">Borrar</button>
+					<td class="btn-group">
+						<a th:href="@{/usuarios/admin/borrar/{username} (username = ${usuario.username})}" type="button" class="btn btn-danger">Borrar</a>
+						<div th:if="${usuario.enabled == 1}">
+							<a th:href="@{/usuarios/admin/disable/{username} (username = ${usuario.username})}" type="button" class="btn btn-warning">Deshabilitar</a>
+						</div>
+						<div th:unless="${usuario.enabled == 1}">
+							<a th:href="@{/usuarios/admin/disable/{username} (username = ${usuario.username})}" type="button" class="btn btn-success">Habilitar</a>
+						</div>
 					</td>
 				</tr>
 			</table>
@@ -29,8 +35,8 @@
 	</div>
 
 
-	<script th:src="@{/bootstrap/js/jquery-3.4.1.min.js}"></script>
-	<script th:src="@{/bootstrap/js/popper.min.js}"></script>
-	<script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
 </body>
 </html>

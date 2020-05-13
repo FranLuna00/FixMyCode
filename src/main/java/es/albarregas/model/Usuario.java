@@ -11,9 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuarios", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = "email", name = "UK_usuarios_Email"),
+	    @UniqueConstraint(columnNames = "username", name = "UK_usuarios_Username")})
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

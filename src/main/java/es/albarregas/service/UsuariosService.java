@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.albarregas.model.Perfil;
 import es.albarregas.model.Rol;
@@ -24,7 +25,7 @@ public class UsuariosService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
-	public void add(Usuario u) {
+	public void save(Usuario u) {
 		u.setPasswd(encoder.encode(u.getPasswd()));
 		repo.save(u);
 	}
@@ -61,6 +62,11 @@ public class UsuariosService {
 	
 	public void guardarPerfil (Perfil perfil) {
 		perfilesRepo.save(perfil);
+	}
+	
+	@Transactional
+	public void borrarPorUsername(String username) {
+		repo.deleteByUsername(username);
 	}
 	
 }
