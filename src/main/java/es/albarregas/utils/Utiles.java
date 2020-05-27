@@ -5,14 +5,16 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utiles {
+
 	public static String guardarArchivo(MultipartFile multiPart, String ruta) {
 		// Obtenemos el nombre original del archivo.
 		String nombreOriginal = multiPart.getOriginalFilename();
 		nombreOriginal.replace(" ", "-");
-		String nombreFinal = randomAlphaNumeric(8) + nombreOriginal;
+		String nombreFinal = "" + randomAlphaNumeric(8) + nombreOriginal;
 		try {
 			// Formamos el nombre del archivo
 			File imageFile = new File(ruta + nombreFinal);
@@ -41,11 +43,15 @@ public class Utiles {
 		}
 		return builder.toString();
 	}
+ /**
+  * NULL ¿?¿?¿?¿ 
+  */
+	@Value("${fixmycode.ruta.archivos}")
+	private String ruta;
 
-	public static String leerArchivo(String ruta) throws IOException{
-		File file = new File(ruta);
-	    return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+	public String leerArchivo(String archivo) throws IOException {
+		File file = new File("C:/spring-tool-curso/FixMyCode/src/main/resources/static/archivos/" + archivo);
+		return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 	}
-	
 
 }

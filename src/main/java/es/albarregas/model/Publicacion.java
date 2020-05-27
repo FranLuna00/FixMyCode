@@ -1,15 +1,13 @@
 package es.albarregas.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,87 +19,112 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="publicaciones")
-public class Publicacion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @ManyToOne
-    private Usuario usuario;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaPublicacion = new Date();
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Valoracion> valoraciones;
-    private boolean aprobada = false;
-    private String archivo;
-	@Enumerated(EnumType.STRING)
-	@Column(name = "tipoArchivo", columnDefinition = "ENUM('MARCA','JAVASCRIPT','CSS','SASS','JAVA','SQL','PROPERTIES')")
-    private TipoArchivo tipoArchivo;
-    @ElementCollection
-    @CollectionTable(name = "etiquetas")
-    private List<String> etiquetas;
-    private String titulo;
-    private String detalles;
+@Table(name = "publicaciones")
+public class Publicacion implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@ManyToOne(cascade = CascadeType.REFRESH)
+	private Usuario usuario;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaPublicacion = new Date();
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<Valoracion> valoraciones;
+	private boolean aprobada = false;
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL)
+	private List<Archivo> archivos;
+	@OneToMany(cascade = javax.persistence.CascadeType.REFRESH)
+	private List<Etiqueta> etiquetas;
+	private String titulo;
+	private String detalles;
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL)
+	private List<Respuesta> respuestas;
 
-    public int getId() {
-        return id;
-    }
+	public List<Respuesta> getRespuestas() {
+		return respuestas;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setRespuestas(List<Respuesta> respuestas) {
+		this.respuestas = respuestas;
+	}
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+	public void addRespuesta(Respuesta respuesta) {
+		if (respuestas == null) {
+			respuestas = new ArrayList<>();
+		}
+		respuestas.add(respuesta);
+	}
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public Date getFechaPublicacion() {
-        return fechaPublicacion;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setFechaPublicacion(Date fechaPublicacion) {
-        this.fechaPublicacion = fechaPublicacion;
-    }
-	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Date getFechaPublicacion() {
+		return fechaPublicacion;
+	}
+
+	public void setFechaPublicacion(Date fechaPublicacion) {
+		this.fechaPublicacion = fechaPublicacion;
+	}
+
 	public void addValoracion(Valoracion valoracion) {
+			Valoracion valoracionBorrar = null;
+		if (valoraciones == null) {
+			valoraciones = new ArrayList<>();
+		} else {
+			Iterator<Valoracion> it = valoraciones.iterator();
+			while (it.hasNext()) {
+				Valoracion v = it.next();
+				if (valoracion.getUsuario().getId() == v.getUsuario().getId()) {
+					valoracionBorrar = v;
+				}
+			}
+		}
+		if (valoracionBorrar != null) {
+			valoraciones.remove(valoracionBorrar);
+		}
 		valoraciones.add(valoracion);
 	}
 
 	public boolean isAprobada() {
-        return aprobada;
-    }
-
-    public void setAprobada(boolean aprobada) {
-        this.aprobada = aprobada;
-    }
-
-    public String getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(String archivo) {
-        this.archivo = archivo;
-    }
-
-    public TipoArchivo getTipoArchivo() {
-		return tipoArchivo;
+		return aprobada;
 	}
 
-	public void setTipoArchivo(TipoArchivo tipoArchivo) {
-		this.tipoArchivo = tipoArchivo;
+	public void setAprobada(boolean aprobada) {
+		this.aprobada = aprobada;
 	}
 
-	public List<String> getEtiquetas() {
-        return etiquetas;
-    }
+	public List<Archivo> getArchivos() {
+		return archivos;
+	}
 
-    public void setEtiquetas(List<String> etiquetas) {
-        this.etiquetas = etiquetas;
-    }
+	public void setArchivos(List<Archivo> archivo) {
+		this.archivos = archivo;
+	}
+
+	public void addArchivo(Archivo archivo) {
+		this.archivos.add(archivo);
+	}
+
+	public List<Etiqueta> getEtiquetas() {
+		return etiquetas;
+	}
+
+	public void setEtiquetas(List<Etiqueta> etiquetas) {
+		this.etiquetas = etiquetas;
+	}
 
 	public List<Valoracion> getValoraciones() {
 		return valoraciones;
@@ -110,25 +133,25 @@ public class Publicacion {
 	public void setValoraciones(List<Valoracion> valoraciones) {
 		this.valoraciones = valoraciones;
 	}
-	
-	public int getValoracionesPositivas () {
+
+	public int getValoracionesPositivas() {
 		int valoracionesP = 0;
 		Iterator<Valoracion> it = valoraciones.iterator();
 		while (it.hasNext()) {
 			Valoracion v = it.next();
-			if (v.getValoracion() == "POSITIVA") {
+			if (v.getValoracion().equals("POSITIVA")) {
 				valoracionesP++;
 			}
 		}
 		return valoracionesP;
 	}
-	
-	public int getValoracionesNegativas () {
+
+	public int getValoracionesNegativas() {
 		int valoracionesP = 0;
 		Iterator<Valoracion> it = valoraciones.iterator();
 		while (it.hasNext()) {
 			Valoracion v = it.next();
-			if (v.getValoracion() != "POSITIVA") {
+			if (v.getValoracion().equals("NEGATIVA")) {
 				valoracionesP++;
 			}
 		}
@@ -150,7 +173,5 @@ public class Publicacion {
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
 	}
-
-    
 
 }

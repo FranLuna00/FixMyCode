@@ -1,74 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
-    <link rel="stylesheet" th:href="@{/css/all.min.css}">
-    <title>Nueva publicación</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+<link rel="stylesheet" th:href="@{/css/all.min.css}">
+<title>Nueva publicación</title>
 </head>
 
 <body>
 
 	<header th:insert="fragments/nav :: navbar-menu"></header>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-4 offset-md-4">
-                <form th:action="@{/publicaciones/nueva}" method="post" enctype="multipart/form-data" th:object="${publicacion}">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-4 offset-md-4">
+				<form th:action="@{/publicaciones/nueva}" method="post"
+					enctype="multipart/form-data" th:object="${publicacion}">
 
-                    <label for="titulo" class="lead">Título</label>
-                    <input type="text" th:field="*{titulo}" name="titulo" id="titulo" class="form-control">
+					<label for="titulo" class="lead">Título</label> <input type="text"
+						th:field="*{titulo}" name="titulo" id="titulo"
+						class="form-control">
 
-                    <div class="form-group">
-                        <label for="detalles" class="lead">Detalles</label>
-                        <textarea id="detalles" th:field="*{detalles}" class="form-control" name="detalles" rows="4"></textarea>
-                    </div>
+					<div class="form-group">
+						<label for="detalles" class="lead">Detalles</label>
+						<textarea id="detalles" th:field="*{detalles}"
+							class="form-control" name="detalles" rows="4"></textarea>
+					</div>
 
-                    <div class="form-group">
-                    <div class="custom-file">
-                        <input id="archivo" class="custom-file-input" type="file" name="archivoSubir">
-                        <label for="archivo" class="custom-file-label">Archivo</label>
-                    </div>
-                    <select name="tipoArchivo" th:field="*{tipoArchivo}" class="form-control">
-                    	<option value="MARCAS">Lenguaje de marcas</option>
-                    	<option value="CSS">CSS</option>
-                    	<option value="SASS">SCSS</option>
-                    	<option value="JAVASCRIPT">Javascript</option>
-                    	<option value="JAVA">Java</option>
-                    	<option value="SQL">SQL</option>
-                    	<option value="PROPERTIES">Archivo .properties</option>
-                    </select>
-                    </div>
+					<div class="form-group">
+						<div class="custom-file">
+							<input id="archivo" class="custom-file-input" type="file"
+								name="archivoSubir" multiple="multiple"> <label
+								for="archivo" class="custom-file-label">Archivo</label>
+						</div>
+					</div>
 
-                    <div class="form-group mt-2">
-                        <label for="etiquetas" class="lead">Etiquetas</label>
-                        <span class="badge badge-info">Escriba palabras clave para facilitar la búsqueda p.e. nombre de
-                            la excepción, lenguaje etc.</span>
-                        <fieldset name="etiquetas" class="mt-3" id="etiquetas">
-                            <hr>
-                            <div class="a-borrar">
-                                <div class="input-group">
-                                    <input type="text" name="etiquetas" class="form-control">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-danger self-destroy"><i
-                                                class="fas fa-minus-circle"></i></button>
-                                    </div>
-                                </div>
-                            </div>
+					<div class="form-group mt-2">
+						<label for="etiquetas" class="lead">Etiquetas</label>
+						<fieldset name="etiquetas" class="mt-3" id="etiquetas">
+							<hr>
+							<div class="input-group">
+								<select class="form-control" id="selectorEtiqueta">
+									<option th:each="etiqueta : ${etiquetas}"
+										th:text="${etiqueta.nombre}" th:attr="value = ${etiqueta.id}" />
+								</select>
+								<button type="button" id="agregarEtiqueta"
+									class="input-group-append btn btn-success">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
 
-                        </fieldset>
+						</fieldset>
+						<div class="list-group" id="etiquetas"></div>
 
-                        <button type="button" id="nuevoInput" class="btn btn-secondary btn-block my-3 order-1 text-light">
-                            <i class="fas fa-plus"></i></button>
-                            
-                       <button type="submit">Confirmar</button>
-                    </div>
+						<button type="submit" class="btn btn-block btn-secondary">Confirmar</button>
+					</div>
 
-                </form>
-            </div>
-        </div>
-    </div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 </body>
 
@@ -77,15 +69,25 @@
 <script th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/all.min.js}"></script>
 <script>
-
-    $("body").on("click", ".self-destroy", function (e) {
-        $(this).parents(".a-borrar").remove();
-    });
-    var input = '<div class="a-borrar my-1"><div class="input-group"><input type="text" name="etiquetas" class="form-control"><div class="input-group-append"><button type="button" class="btn btn-danger self-destroy"><i class="fas fa-minus-circle"></i></button></div></div></div>';
-    $("#nuevoInput").click(function (e) {
-        $("#etiquetas").append(input);
-    });
-
+	$(function() {
+		$("#agregarEtiqueta")
+				.click(
+						function(e) {
+							e.preventDefault();
+							if ($('#selectorEtiqueta').has('option').length > 0) {
+								let opcion = $("#selectorEtiqueta").children(
+										"option:selected");
+								var input = "<input type='hidden' name='etiquetas' value='"
+										+ opcion.val() + "'>";
+								var texto = "<span class='list-group-item'>"
+										+ opcion.text() + "</span>";
+								$("#etiquetas").append(input);
+								$("#etiquetas").append(texto);
+								$("#selectorEtiqueta").find('option:selected')
+										.remove();
+							}
+						});
+	});
 </script>
 
 </html>

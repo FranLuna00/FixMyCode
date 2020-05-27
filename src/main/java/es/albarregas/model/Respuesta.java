@@ -1,5 +1,8 @@
 package es.albarregas.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "respuestas")
-public class Respueta {
+public class Respuesta implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -18,6 +21,7 @@ public class Respueta {
 	private Usuario usuario;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Publicacion publicacion;
+	@Column(length = 400)
 	private String respuesta;
 	
 	public int getId() {

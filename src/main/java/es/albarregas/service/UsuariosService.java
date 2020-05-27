@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.albarregas.model.Perfil;
+import es.albarregas.model.Publicacion;
 import es.albarregas.model.Rol;
 import es.albarregas.model.Usuario;
 import es.albarregas.repository.PerfilesRepo;
+import es.albarregas.repository.PublicacionesRepo;
 import es.albarregas.repository.UsuariosRepo;
 
 @Service
@@ -21,6 +23,9 @@ public class UsuariosService {
 	
 	@Autowired
 	private PerfilesRepo perfilesRepo;
+	
+	@Autowired
+	private PublicacionesRepo publicacionesRepo;
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -66,7 +71,14 @@ public class UsuariosService {
 	
 	@Transactional
 	public void borrarPorUsername(String username) {
-		repo.deleteByUsername(username);
+		Usuario u = repo.findByUsernameLike(username);
+		List<Publicacion> publicaciones = u.getPublicaciones();
+		for (Publicacion p : publicaciones) {
+			p.setUsuario(null);
+			publicacionesRepo.save(p);
+		}
+		u.setPublicaciones(null);
+		repo.delete(u);
 	}
 	
 }

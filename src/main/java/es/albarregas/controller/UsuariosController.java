@@ -2,6 +2,8 @@ package es.albarregas.controller;
 
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,48 +24,38 @@ import es.albarregas.model.Rol;
 import es.albarregas.model.Usuario;
 import es.albarregas.service.UsuariosService;
 import es.albarregas.utils.Utiles;
-
+/**
+ * Gestiona peticiones de usuarios
+ * @author Fran Luna
+ *
+ */
 @Controller
 @RequestMapping("/usuarios")
 public class UsuariosController {
 
 	@Value("${fixmycode.ruta.imagenes}")
 	private String ruta;
-	
+
 	@Autowired
 	private UsuariosService usuariosServ;
-
+	/**
+	 * Redirección a formulario de registro
+	 * @param usuario
+	 * @return vista login
+	 */
 	@GetMapping("/registro")
 	public String registroForm(Usuario usuario) {
 		return "/usuarios/registro";
 	}
 
-	@GetMapping("/admin")
-	public String administrarUsuarios(Model model) {
-		model.addAttribute("usuarios", usuariosServ.get());
-		return "/usuarios/admin";
-	}
-	
-	@GetMapping("/admin/borrar/{username}")
-	public String borrarUsuario(@PathVariable("username") String username) {
-		usuariosServ.borrarPorUsername(username);
-		return "redirect:/usuarios/admin";
-	}
-
-	@GetMapping("/admin/disable/{username}")
-	public String deshabilitarUsuario(@PathVariable("username") String username) {
-		Usuario u = usuariosServ.getByUsername(username);
-		if (u.getEnabled() == 0) {
-			u.setEnabled(1);
-		} else {
-			u.setEnabled(0);
-		}
-		usuariosServ.save(u);
-		return "redirect:/usuarios/admin";
-	}
-	
+	/**
+	 * Redirige a perfil de usuario con nombre de usuario especificado en url
+	 * @param username
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/{username}")
-	public String perfilUsuario (@PathVariable("username") String username, Model model) {
+	public String perfilUsuario(@PathVariable("username") String username, Model model) {
 		model.addAttribute("user", usuariosServ.getByUsername(username));
 		return "usuarios/perfil";
 	}
@@ -73,7 +65,14 @@ public class UsuariosController {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		webDataBinder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(sdf, false));
 	}
-
+	/**
+	 * Guarda un usuario 
+	 * @param usuario
+	 * @param result
+	 * @param multiPart
+	 * @param passwdConfirm
+	 * @return vista index
+	 */
 	@PostMapping("/guardar")
 	public String registro(Usuario usuario, BindingResult result,
 			@RequestParam("archivoImagen") MultipartFile multiPart,
@@ -114,6 +113,82 @@ public class UsuariosController {
 		} else {
 			usuariosServ.save(usuario);
 			return "redirect:/";
+		}
+	}
+	/**
+	 * Redirección a formulario de modificación de perfil
+	 * @param u
+	 * @param model
+	 * @param request
+	 * @return vista editar usuario 
+	 */
+	@GetMapping("/editar")
+	public String editar(Usuario u, Model model, HttpServletRequest request) {
+		model.addAttribute("usuario", usuariosServ.getByUsername(request.getUserPrincipal().getName()));
+		return "/usuarios/editarPerfil";
+	}
+	/**
+	 * Edita un usuario logeado
+	 * @param usuario
+	 * @param result
+	 * @param model
+	 * @param request
+	 * @param multiPart
+	 * @param passwdConfirm
+	 * @param newPasswd
+	 * @return vista detalle usuario logeado
+	 */
+	@PostMapping("/editar")
+	public String editarUsuario(Usuario usuario, BindingResult result, Model model, HttpServletRequest request,
+			@RequestParam("archivoImagen") MultipartFile multiPart, @RequestParam("passwdConfirm") String passwdConfirm,
+			@RequestParam("new-passwd") String newPasswd) {
+		boolean error = false;
+		Usuario oldUsuario = usuariosServ.getByUsername(request.getUserPrincipal().getName());
+		if (result.hasErrors()) {
+			error = true;
+		}
+		if (!newPasswd.equals("")) {
+			if (!newPasswd.equals(passwdConfirm)) {
+				result.addError(new ObjectError("Contraseña errónea",
+						"La confirmación de la contraseña debe coincidir con la inicial"));
+				error = true;
+			} else {
+				usuario.setPasswd(newPasswd);
+			}
+			if (usuario.getPasswd().length() < 6) {
+				result.addError(
+						new ObjectError("Contraseña errónea", "La contraseña debe tener al menos 7 caracteres"));
+				error = true;
+			}
+		} else {
+			usuario.setPasswd(oldUsuario.getPasswd());
+		}
+		if (usuario.getUsername().equals("")) {
+			result.addError(new ObjectError("Nombre de usuario", "El nombre de usuario no puede estar vacío"));
+			error = true;
+		} else {
+			if (!usuario.getUsername().equals(request.getUserPrincipal().getName())
+					&& !usuariosServ.checkUsername(usuario.getUsername())) {
+				result.addError(new ObjectError("Nombre de usuario", "El nombre de usuario no puede estar repetido"));
+				error = true;
+			}
+		}
+		if (!multiPart.isEmpty()) {
+			String nombreImg = Utiles.guardarArchivo(multiPart, ruta);
+			if (nombreImg != null) {
+				usuario.setAvatar(nombreImg);
+			}
+		} else {
+			usuario.setAvatar(oldUsuario.getAvatar());
+		}
+		if (error) {
+			return "redirect:/usuarios/editar";
+		} else {
+			usuario.setId(oldUsuario.getId());
+			usuario.setPerfil(oldUsuario.getPerfil());
+			usuario.setEmail(oldUsuario.getEmail());
+			usuariosServ.save(usuario);
+			return "redirect:/usuarios/" + usuario.getUsername();
 		}
 	}
 

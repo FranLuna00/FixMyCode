@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 	/**
-	 * Los usuarios se guardan en la base de datos
+	 * Data source declarado en application.properties
 	 */
 	@Autowired
 	private DataSource dataSource;
@@ -47,13 +47,15 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http
+	      .csrf().disable();
 		http.authorizeRequests() // Los recursos estáticos no requieren autenticación
 				.antMatchers("/bootstrap/**", "/css/**", "/img/**", "/js/**").permitAll()
 				// Las vistas públicas no requieren autenticación
 				.antMatchers("/", "/usuarios/**", "/logout", "/publicaciones/**").permitAll()
 				//Vista de gestión de usuarios requiere admin
-				.antMatchers("/usuarios/admin").hasAnyAuthority("ADMIN")
-				.antMatchers("/publicaciones/nueva").hasAnyAuthority("REGISTRADO", "ADMIN")
+				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+				.antMatchers("/publicaciones/nueva, /publicaciones/valorar").hasAnyAuthority("REGISTRADO", "ADMIN")
 				// Todas las demás URLs de la Aplicación requieren autenticación
 				.anyRequest().authenticated()
 				// El formulario de Login no requiere autenticacion

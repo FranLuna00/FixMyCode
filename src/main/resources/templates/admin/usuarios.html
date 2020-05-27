@@ -21,12 +21,12 @@
 				<tr th:each="usuario : ${usuarios}">
 					<td th:text="${usuario.username}"></td>
 					<td class="btn-group">
-						<a th:href="@{/usuarios/admin/borrar/{username} (username = ${usuario.username})}" type="button" class="btn btn-danger">Borrar</a>
+						<a th:href="@{/admin/usuarios/borrar/{username} (username = ${usuario.username})}" type="button" class="btn btn-danger">Borrar</a>
 						<div th:if="${usuario.enabled == 1}">
-							<a th:href="@{/usuarios/admin/disable/{username} (username = ${usuario.username})}" type="button" class="btn btn-warning">Deshabilitar</a>
+							<a th:href="@{/admin/usuarios/disable/{username} (username = ${usuario.username})}" type="button" class="btn btn-warning">Deshabilitar</a>
 						</div>
 						<div th:unless="${usuario.enabled == 1}">
-							<a th:href="@{/usuarios/admin/disable/{username} (username = ${usuario.username})}" type="button" class="btn btn-success">Habilitar</a>
+							<a th:href="@{/admin/usuarios/disable/{username} (username = ${usuario.username})}" type="button" class="btn btn-success">Habilitar</a>
 						</div>
 					</td>
 				</tr>

@@ -1,7 +1,10 @@
 package es.albarregas.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,24 +20,24 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "usuarios", uniqueConstraints = {
 	    @UniqueConstraint(columnNames = "email", name = "UK_usuarios_Email"),
 	    @UniqueConstraint(columnNames = "username", name = "UK_usuarios_Username")})
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne(optional = false)
     @JoinColumn(name = "idPerfil")
     private Perfil perfil;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String nombre;
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String username;
     @Column(nullable = false)
     private String passwd;
     private String avatar;
     private int enabled = 1;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REFRESH)
     private List<Publicacion> publicaciones;
 
     public int getId() {
@@ -107,6 +110,13 @@ public class Usuario {
 
     public void setPublicaciones(List<Publicacion> publicaciones) {
         this.publicaciones = publicaciones;
+    }
+    
+    public void addPublicacion(Publicacion p) {
+    	if (publicaciones == null) {
+    		publicaciones = new ArrayList<Publicacion>();
+    	}
+    	publicaciones.add(p);
     }
 
 }   

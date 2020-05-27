@@ -2,35 +2,29 @@ package es.albarregas.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "perfiles")
-public class Perfil implements Serializable {
+@Table(name = "etiquetas")
+public class Etiqueta implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Enumerated(EnumType.STRING)
-	@Column(name = "rol", columnDefinition = "ENUM('REGISTRADO', 'ADMIN')")
-	private Rol rol;
+	private String nombre;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Rol getRol() {
-		return rol;
+	public String getNombre() {
+		return nombre;
 	}
-	public void setRol(Rol rol) {
-		this.rol = rol;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	
 }
