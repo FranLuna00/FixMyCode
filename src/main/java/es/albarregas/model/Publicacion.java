@@ -1,26 +1,31 @@
 package es.albarregas.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+/**
+ * Modelo de publicación
+ * @author Fran Luna
+ *
+ */
 @Entity
 @Table(name = "publicaciones")
-public class Publicacion implements Serializable {
+public class Publicacion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -30,12 +35,13 @@ public class Publicacion implements Serializable {
 	private Date fechaPublicacion = new Date();
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<Valoracion> valoraciones;
-	private boolean aprobada = false;
 	@OneToMany(cascade = javax.persistence.CascadeType.ALL)
 	private List<Archivo> archivos;
-	@OneToMany(cascade = javax.persistence.CascadeType.REFRESH)
+	@ManyToMany(cascade = javax.persistence.CascadeType.REFRESH)
 	private List<Etiqueta> etiquetas;
+	@Column(length = 60, nullable = false)
 	private String titulo;
+	@Column(length = 600, nullable = false)
 	private String detalles;
 	@OneToMany(cascade = javax.persistence.CascadeType.ALL)
 	private List<Respuesta> respuestas;
@@ -97,15 +103,7 @@ public class Publicacion implements Serializable {
 		}
 		valoraciones.add(valoracion);
 	}
-
-	public boolean isAprobada() {
-		return aprobada;
-	}
-
-	public void setAprobada(boolean aprobada) {
-		this.aprobada = aprobada;
-	}
-
+	
 	public List<Archivo> getArchivos() {
 		return archivos;
 	}
@@ -133,7 +131,7 @@ public class Publicacion implements Serializable {
 	public void setValoraciones(List<Valoracion> valoraciones) {
 		this.valoraciones = valoraciones;
 	}
-
+	
 	public int getValoracionesPositivas() {
 		int valoracionesP = 0;
 		Iterator<Valoracion> it = valoraciones.iterator();
@@ -172,6 +170,28 @@ public class Publicacion implements Serializable {
 
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Publicacion other = (Publicacion) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

@@ -1,7 +1,5 @@
 package es.albarregas.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,10 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
-
+/**
+ * Modelo de valoración de publicación
+ * @author Fran Luna
+ *
+ */
 @Entity
 @Table(name = "valoraciones")
-public class Valoracion implements Serializable {
+public class Valoracion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

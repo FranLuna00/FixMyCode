@@ -7,9 +7,18 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-
+/**
+ * Clase con utilidades
+ * @author Fran Luna
+ *
+ */
 public class Utiles {
-
+	/**
+	 * Guarda un archivo en el sistema
+	 * @param multiPart
+	 * @param ruta
+	 * @return nombre del archivo
+	 */
 	public static String guardarArchivo(MultipartFile multiPart, String ruta) {
 		// Obtenemos el nombre original del archivo.
 		String nombreOriginal = multiPart.getOriginalFilename();
@@ -32,7 +41,7 @@ public class Utiles {
 	 * Genera un String aleatorio de longitud <i>count</i>
 	 * 
 	 * @param count
-	 * @return
+	 * @return cadena aleatoria
 	 */
 	private static String randomAlphaNumeric(int count) {
 		String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -49,6 +58,12 @@ public class Utiles {
 	@Value("${fixmycode.ruta.archivos}")
 	private String ruta;
 
+	/**
+	 * Lee un archivo 
+	 * @param archivo
+	 * @return cadena con el contenido 
+	 * @throws IOException
+	 */
 	public String leerArchivo(String archivo) throws IOException {
 		File file = new File("C:/spring-tool-curso/FixMyCode/src/main/resources/static/archivos/" + archivo);
 		return FileUtils.readFileToString(file, StandardCharsets.UTF_8);

@@ -36,7 +36,9 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-	
+	/**
+	 * Consultas para recoger usuarios de la base de datos
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource)
@@ -44,7 +46,9 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 				.authoritiesByUsernameQuery("SELECT u.username, p.rol FROM usuarios AS u INNER JOIN perfiles AS p "
 						+ "ON u.idPerfil = p.id WHERE u.username=?");
 	}
-
+	/**
+	 * Configura el acceso a diferentes url dado el rol del usuario
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -55,11 +59,16 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/usuarios/**", "/logout", "/publicaciones/**").permitAll()
 				//Vista de gestión de usuarios requiere admin
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-				.antMatchers("/publicaciones/nueva, /publicaciones/valorar").hasAnyAuthority("REGISTRADO", "ADMIN")
+				.antMatchers("/publicaciones/nueva", "/publicaciones/valorar", "/publicaciones/respuesta").hasAnyAuthority("REGISTRADO", "ADMIN")
 				// Todas las demás URLs de la Aplicación requieren autenticación
 				.anyRequest().authenticated()
 				// El formulario de Login no requiere autenticacion
 				.and().formLogin().loginPage("/login").permitAll();
+		http
+			.logout()
+			.logoutSuccessUrl("/");
+		
+		http.formLogin().defaultSuccessUrl("/", true);
 	}
 
 }

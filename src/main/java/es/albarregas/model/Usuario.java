@@ -1,6 +1,5 @@
 package es.albarregas.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +14,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
+/**
+ * Modelo de usuario
+ * @author Fran Luna
+ *
+ */
 @Entity
 @Table(name = "usuarios", uniqueConstraints = {
 	    @UniqueConstraint(columnNames = "email", name = "UK_usuarios_Email"),
 	    @UniqueConstraint(columnNames = "username", name = "UK_usuarios_Username")})
-public class Usuario implements Serializable {
+public class Usuario  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

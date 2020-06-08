@@ -5,6 +5,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
+<link th:href="@{/css/all.min.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -17,24 +18,40 @@
 				sec:authorize="isAuthenticated()">
 				<span>Bienvenido</span>&nbsp;<span sec:authentication="name"></span>
 			</div>
-			<div th:each="publicacion : ${publicaciones}" class="col-12 border border-primary rounded-lg my-2">
-				<a class="btn text-dark" th:href="@{/publicaciones/{id} (id = ${publicacion.id})}">
-					<span class="h6" th:text="${publicacion.titulo}"></span>&emsp;
-					<span class="lead">por&nbsp;</span>
-					<span th:if="${publicacion.usuario != null}" class="lead" th:text="${publicacion.usuario.nombre}">
-					</span>&emsp;<span class="lead" th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MM-yyyy')}"></span>
+			<div th:each="publicacion : ${publicaciones}"
+				class="col-12 border border-primary rounded-lg my-2">
+				<a class="btn text-dark"
+					th:href="@{/publicaciones/{id} (id = ${publicacion.id})}"> <span
+					class="h6" th:text="${publicacion.titulo}"></span>&emsp; <span
+					class="lead">por&nbsp;</span> <span
+					th:if="${publicacion.usuario != null}" class="lead"
+					th:text="${publicacion.usuario.nombre}"> </span>&emsp;<span
+					class="lead"
+					th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MM-yyyy')}"></span>
 				</a>
+				<div class="float-right">
+						<i class="fas fa-thumbs-up text-success"></i>&emsp;<span class="mr-2 mt-2"
+							id="valoracionPositiva"
+							th:text="${publicacion.getValoracionesPositivas()}"></span>
+						<i class="fas fa-thumbs-down text-danger"></i>&emsp;<span class="mt-2"
+							th:text="${publicacion.getValoracionesNegativas()}"></span>
+
+				</div>
 				<div>
-				<div class="badge badge-primary" th:each="etiqueta : ${publicacion.etiquetas}" th:text="${etiqueta.nombre}"></div>
+					<div class="badge badge-primary"
+						th:each="etiqueta : ${publicacion.etiquetas}"
+						th:text="${etiqueta.nombre}"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 
+	<footer th:insert="fragments/pie :: pie-pagina"></footer>
 
 
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 	<script th:src="@{/js/popper.min.js}"></script>
 	<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/all.min.js}"></script>
 </body>
 </html>

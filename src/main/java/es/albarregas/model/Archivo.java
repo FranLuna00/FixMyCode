@@ -1,7 +1,6 @@
 package es.albarregas.model;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +13,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import es.albarregas.utils.Utiles;
+/**
+ * Modelo de archivo
+ * @author Fran Luna
+ *
+ */
 @Entity
 @Table(name="archivos")
-public class Archivo implements Serializable{
+public class Archivo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

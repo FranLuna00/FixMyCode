@@ -24,8 +24,10 @@ import es.albarregas.model.Rol;
 import es.albarregas.model.Usuario;
 import es.albarregas.service.UsuariosService;
 import es.albarregas.utils.Utiles;
+
 /**
  * Gestiona peticiones de usuarios
+ * 
  * @author Fran Luna
  *
  */
@@ -38,8 +40,10 @@ public class UsuariosController {
 
 	@Autowired
 	private UsuariosService usuariosServ;
+
 	/**
 	 * Redirección a formulario de registro
+	 * 
 	 * @param usuario
 	 * @return vista login
 	 */
@@ -50,6 +54,7 @@ public class UsuariosController {
 
 	/**
 	 * Redirige a perfil de usuario con nombre de usuario especificado en url
+	 * 
 	 * @param username
 	 * @param model
 	 * @return
@@ -65,8 +70,10 @@ public class UsuariosController {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		webDataBinder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(sdf, false));
 	}
+
 	/**
-	 * Guarda un usuario 
+	 * Guarda un usuario
+	 * 
 	 * @param usuario
 	 * @param result
 	 * @param multiPart
@@ -104,31 +111,35 @@ public class UsuariosController {
 			String nombreImg = Utiles.guardarArchivo(multiPart, ruta);
 			if (nombreImg != null) {
 				usuario.setAvatar(nombreImg);
-			} else {
-				usuario.setAvatar("avatar.png");
 			}
+		} else {
+			usuario.setAvatar("avatar.png");
 		}
 		if (error) {
 			return "/usuarios/registro";
 		} else {
 			usuariosServ.save(usuario);
-			return "redirect:/";
+			return "redirect:/login";
 		}
 	}
+
 	/**
 	 * Redirección a formulario de modificación de perfil
+	 * 
 	 * @param u
 	 * @param model
 	 * @param request
-	 * @return vista editar usuario 
+	 * @return vista editar usuario
 	 */
 	@GetMapping("/editar")
 	public String editar(Usuario u, Model model, HttpServletRequest request) {
 		model.addAttribute("usuario", usuariosServ.getByUsername(request.getUserPrincipal().getName()));
 		return "/usuarios/editarPerfil";
 	}
+
 	/**
 	 * Edita un usuario logeado
+	 * 
 	 * @param usuario
 	 * @param result
 	 * @param model

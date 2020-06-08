@@ -5,17 +5,18 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
-<title>No existe la publicación</title>
+<link th:href="@{/css/all.min.css}" rel="stylesheet">
 </head>
+
 <body>
 
 	<header th:insert="fragments/nav :: navbar-menu"></header>
-	
-	<h1 class="text-danger text-center mt-5">No existe la publicación</h1>
-	
-	<footer th:insert="fragments/pie :: pie-pagina"></footer>
-<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.js}"></script>
+
+	<div class="jumbotron display-3 text-center">Lo sentimos, ha sucedido un error</div>
+
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/all.min.js}"></script>
 </body>
 </html>

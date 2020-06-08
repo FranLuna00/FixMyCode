@@ -50,8 +50,8 @@
 
 					<input type="hidden" id="idPublicacion"
 						th:attr="value = ${publicacion.id}">
-
-					<p class="col-12" th:text="${publicacion.detalles}"></p>
+					<p class="col-9" th:text="${publicacion.detalles}"></p>
+					<p class="col-3 text-warning text-right"><a href="#respuestas">Ir a respuestas</a></p>
 					<div th:each="archivo : ${publicacion.archivos}">
 						<div class="col-12" th:switch="${archivo.tipoArchivo.name()}">
 
@@ -83,7 +83,7 @@
 				</div>
 
 			</div>
-			<div class="col-12">
+			<div class="col-12" id="respuestas">
 				<div class="row">
 					<div th:each="respuesta:${publicacion.respuestas}"
 						class="col-12 row p-3 border border-primary rounded">
@@ -120,58 +120,8 @@
 	<script th:src="@{/js/bootstrap.js}"></script>
 	<script th:src="@{/js/all.min.js}"></script>
 	<script th:src="@{/js/prism.js}"></script>
-	<script>
-		$(function() {
-			$("#respuesta").keypress(function(e) {
-								var tval = $("#respuesta").val(), 
-								tlength = tval.length, set = 400, 
-								remain = parseInt(set - tlength);
-								$('#charNum').text(remain);
-								if (remain <= 0 && e.which !== 0
-										&& e.charCode !== 0) {
-									$("#respuesta").val(
-											(tval).substring(0, tlength - 1));
-									return false;
-								}
-							});
-
-			$("#valorarPositivo").click(function(e) {
-				e.preventDefault();
-				valorar("positiva");
-			});
-			$("#valorarNegativo").click(function(e) {
-				e.preventDefault();
-				valorar("negativa")
-			});
-			function valorar(valoracion) {
-				let idPublicacion = $("#idPublicacion").val();
-				var datos = {
-					"idPublicacion" : idPublicacion,
-					"valoracion" : valoracion
-				};
-				$.ajax({
-					type : "post",
-					url : "/publicaciones/valorar",
-					dataType : "json",
-					contentType : "application/json",
-					data : JSON.stringify(datos),
-					success : function(response) {
-						if (valoracion == "positiva") {
-							debugger
-							let numValoraciones = parseInt($(
-									"#valoracionPositiva").text());
-							numValoraciones++;
-							$("#valoracionPositiva").text(numValoraciones);
-						} else {
-							let numValoraciones = parseInt($(
-									"#valoracionNegativa").text());
-							numValoraciones++;
-							$("#valoracionNegativa").text(numValoraciones);
-						}
-					}
-				});
-			}
-		});
+	<script th:src="@{/js/publicaciones/detalle.js}">
+		
 	</script>
 </body>
 

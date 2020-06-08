@@ -5,29 +5,69 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link th:href="@{/bootstrap/css/bootstrap4-retro.css}" rel="stylesheet">
+<link th:href="@{/css/all.min.css}" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
 
 	<header th:insert="fragments/nav :: navbar-menu"></header>
-	
+
 	<div class="container">
 		<div class="row">
-			<div class="col-12 col-md-4 offset-md-4 rounded border border-secondary p-4 mt-3">
+			<div class="col-12 col-md-4 rounded border border-secondary p-4 mt-3">
 				<div class="row">
-					<div class="col-4"><img th:src="@{/img/{avatar} (avatar=${user.avatar})}" height="200" width="200" class="img-thumbnail"></div>
-					<div class="col-8 my-auto"><b>Nombre: </b><span th:text="${user.nombre}"></span></div>
-					<div class="col-12"><b>Nombre de usuario: </b><span th:text="${user.username}"></span></div>
-					<div class="col-12"><b>Email: </b><span th:text="${user.email}"></span></div>
-					
+					<div class="col-4">
+						<img th:src="@{/img/{avatar} (avatar=${user.avatar})}"
+							height="200" width="200" class="img-thumbnail">
+					</div>
+					<div class="col-8 my-auto">
+						<b>Nombre: </b><span th:text="${user.nombre}"></span>
+					</div>
+					<div class="col-12">
+						<b>Nombre de usuario: </b><span th:text="${user.username}"></span>
+					</div>
+					<div class="col-12">
+						<b>Email: </b><span th:text="${user.email}"></span>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-12 col-md-8 p-4">
+				<div class="row">
+					<div class="col-12 border border-primary rounded-lg my-2"
+						th:each="publicacion : ${user.publicaciones}">
+						<a class="btn text-dark"
+							th:href="@{/publicaciones/{id} (id = ${publicacion.id})}"> <span
+							class="h6" th:text="${publicacion.titulo}"></span>&emsp; <span
+							class="lead">por&nbsp;</span> <span
+							th:if="${publicacion.usuario != null}" class="lead"
+							th:text="${publicacion.usuario.nombre}"> </span>&emsp;<span
+							class="lead"
+							th:text="${#dates.format(publicacion.fechaPublicacion, 'dd-MM-yyyy')}"></span>
+						</a>
+						<div class="float-right">
+							<i class="fas fa-thumbs-up text-success"></i>&emsp;<span
+								class="mr-2 mt-2" id="valoracionPositiva"
+								th:text="${publicacion.getValoracionesPositivas()}"></span> <i
+								class="fas fa-thumbs-down text-danger"></i>&emsp;<span
+								class="mt-2" th:text="${publicacion.getValoracionesNegativas()}"></span>
+
+						</div>
+						<div>
+							<div class="badge badge-primary"
+								th:each="etiqueta : ${publicacion.etiquetas}"
+								th:text="${etiqueta.nombre}"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/all.min.js}"></script>
 
 </body>
 </html>

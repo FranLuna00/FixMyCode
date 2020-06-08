@@ -18,6 +18,15 @@
 				<form th:action="@{/publicaciones/nueva}" method="post"
 					enctype="multipart/form-data" th:object="${publicacion}">
 
+
+					<div th:if="${#fields.hasErrors('*')}" class='alert alert-danger'
+						role='alert'>
+						Por favor corrija los siguientes errores:
+						<ul>
+							<li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+						</ul>
+					</div>
+
 					<label for="titulo" class="lead">Título</label> <input type="text"
 						th:field="*{titulo}" name="titulo" id="titulo"
 						class="form-control">
@@ -52,7 +61,10 @@
 							</div>
 
 						</fieldset>
-						<div class="list-group" id="etiquetas"></div>
+						<div class="list-group" id="etiquetas">
+							<input type="hidden" name="etiquetas" id="etiquetasvacias"
+								value="0">
+						</div>
 
 						<button type="submit" class="btn btn-block btn-secondary">Confirmar</button>
 					</div>
@@ -68,26 +80,8 @@
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/all.min.js}"></script>
-<script>
-	$(function() {
-		$("#agregarEtiqueta")
-				.click(
-						function(e) {
-							e.preventDefault();
-							if ($('#selectorEtiqueta').has('option').length > 0) {
-								let opcion = $("#selectorEtiqueta").children(
-										"option:selected");
-								var input = "<input type='hidden' name='etiquetas' value='"
-										+ opcion.val() + "'>";
-								var texto = "<span class='list-group-item'>"
-										+ opcion.text() + "</span>";
-								$("#etiquetas").append(input);
-								$("#etiquetas").append(texto);
-								$("#selectorEtiqueta").find('option:selected')
-										.remove();
-							}
-						});
-	});
+<script th:src="@{/js/publicaciones/formPublicacion.js}">
+	
 </script>
 
 </html>

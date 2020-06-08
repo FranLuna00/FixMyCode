@@ -97,5 +97,6 @@ public class AdminController {
 		usuariosServ.save(u);
 		return "redirect:/admin/usuarios";
 	}
+	
 
 }
