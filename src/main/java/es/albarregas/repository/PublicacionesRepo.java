@@ -22,5 +22,5 @@ public interface PublicacionesRepo extends JpaRepository<Publicacion, Integer> {
 	public List<Publicacion> findByTituloContainingAndEtiquetasIn(String titulo, List<Etiqueta> etiquetas);
 	public Page<Publicacion> findByEtiquetasIn(List<Etiqueta> etiquetas, Pageable pageable);
 	@Query("select p from Publicacion p left join p.valoraciones v group by p order by count(v) desc")
-	public List<Publicacion> findByValoraciones();
+	public List<Publicacion> findByValoraciones(Pageable pageable);
 }

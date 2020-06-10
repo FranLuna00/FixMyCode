@@ -52,29 +52,29 @@
 						th:attr="value = ${publicacion.id}">
 					<p class="col-9" th:text="${publicacion.detalles}"></p>
 					<p class="col-3 text-warning text-right"><a href="#respuestas">Ir a respuestas</a></p>
-					<div th:each="archivo : ${publicacion.archivos}">
-						<div class="col-12" th:switch="${archivo.tipoArchivo.name()}">
+					<div th:each="texto : ${textos}">
+						<div class="col-12" th:switch="${texto.tipo.name()}">
 
 							<pre th:case="'CSS'">
-						<code class="language-css" th:text="${archivo.texto}"></code>
+						<code class="language-css" th:text="${texto.texto}"></code>
 					</pre>
 							<pre th:case="'SASS'">
-						<code class="language-scss" th:text="${archivo.texto}"></code>
+						<code class="language-scss" th:text="${texto.texto}"></code>
 					</pre>
 							<pre th:case="'MARCA'">
-						<code class="language-markup" th:text="${archivo.texto}"></code>
+						<code class="language-markup" th:text="${texto.texto}"></code>
 					</pre>
 							<pre th:case="'JAVASCRIPT'">
-						<code class="language-javascript" th:text="${archivo.texto}"></code>
+						<code class="language-javascript" th:text="${texto.texto}"></code>
 					</pre>
 							<pre th:case="'JAVA'">
-						<code class="language-java" th:text="${archivo.texto}"></code>
+						<code class="language-java" th:text="${texto.texto}"></code>
 					</pre>
 							<pre th:case="'SQL'">
-						<code class="language-sql" th:text="${archivo.texto}"></code>
+						<code class="language-sql" th:text="${texto.texto}"></code>
 					</pre>
 							<pre th:case="'PROPERTIES'">
-						<code class="language-properties" th:text="${archivo.texto}"></code>
+						<code class="language-properties" th:text="${texto.texto}"></code>
 					</pre>
 
 						</div>

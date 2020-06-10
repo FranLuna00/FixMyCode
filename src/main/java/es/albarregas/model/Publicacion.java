@@ -113,7 +113,10 @@ public class Publicacion {
 	}
 
 	public void addArchivo(Archivo archivo) {
-		this.archivos.add(archivo);
+		if (archivos == null) {
+			archivos = new ArrayList<Archivo>();
+		}
+		archivos.add(archivo);
 	}
 
 	public List<Etiqueta> getEtiquetas() {

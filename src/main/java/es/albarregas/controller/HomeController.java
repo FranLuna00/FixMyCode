@@ -24,12 +24,15 @@ public class HomeController {
 	 * @param model
 	 * @return vista index
 	 */
-	@GetMapping("/")
+	@GetMapping("/home")
 	public String mostrarHome (Model model) {
 		List<Publicacion> publicaciones = publiServ.getByValoraciones();
 		model.addAttribute("publicaciones", publicaciones);
 		return "index";
 	}
 
-	
+	@GetMapping("/")
+	public String home() {
+		return "redirect:/home";
+	}
 }

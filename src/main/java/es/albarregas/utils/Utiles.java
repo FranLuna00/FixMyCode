@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 /**
  * Clase con utilidades
@@ -52,20 +51,14 @@ public class Utiles {
 		}
 		return builder.toString();
 	}
- /**
-  * NULL ¿?¿?¿?¿ 
-  */
-	@Value("${fixmycode.ruta.archivos}")
-	private String ruta;
-
 	/**
 	 * Lee un archivo 
 	 * @param archivo
 	 * @return cadena con el contenido 
 	 * @throws IOException
 	 */
-	public String leerArchivo(String archivo) throws IOException {
-		File file = new File("C:/spring-tool-curso/FixMyCode/src/main/resources/static/archivos/" + archivo);
+	public String leerArchivo(String archivo, String ruta) throws IOException {
+		File file = new File(ruta + archivo);
 		return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
 	}
 

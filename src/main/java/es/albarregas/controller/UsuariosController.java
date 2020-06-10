@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,9 +33,6 @@ import es.albarregas.utils.Utiles;
 @Controller
 @RequestMapping("/usuarios")
 public class UsuariosController {
-
-	@Value("${fixmycode.ruta.imagenes}")
-	private String ruta;
 
 	@Autowired
 	private UsuariosService usuariosServ;
@@ -83,7 +79,8 @@ public class UsuariosController {
 	@PostMapping("/guardar")
 	public String registro(Usuario usuario, BindingResult result,
 			@RequestParam("archivoImagen") MultipartFile multiPart,
-			@RequestParam("passwdConfirm") String passwdConfirm) {
+			@RequestParam("passwdConfirm") String passwdConfirm,
+			HttpServletRequest request) {
 		boolean error = false;
 		usuario.setPerfil(usuariosServ.getPerfilByRol(Rol.REGISTRADO));
 		if (result.hasErrors()) {
@@ -108,6 +105,7 @@ public class UsuariosController {
 			error = true;
 		}
 		if (!multiPart.isEmpty()) {
+			String ruta = request.getServletContext().getRealPath("/WEB-INF/classes/static/img/");
 			String nombreImg = Utiles.guardarArchivo(multiPart, ruta);
 			if (nombreImg != null) {
 				usuario.setAvatar(nombreImg);
@@ -185,6 +183,7 @@ public class UsuariosController {
 			}
 		}
 		if (!multiPart.isEmpty()) {
+			String ruta = request.getServletContext().getRealPath("/WEB-INF/classes/static/img/");
 			String nombreImg = Utiles.guardarArchivo(multiPart, ruta);
 			if (nombreImg != null) {
 				usuario.setAvatar(nombreImg);

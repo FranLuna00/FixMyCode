@@ -37,9 +37,9 @@ public class Archivo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getTexto() {
+	public String getTexto(String ruta) {
 		try {
-			texto = (new Utiles()).leerArchivo(archivo);
+			texto = (new Utiles()).leerArchivo(archivo, ruta);
 			return texto;
 		} catch (IOException e) {
 			e.printStackTrace();

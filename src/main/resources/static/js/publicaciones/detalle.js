@@ -29,7 +29,7 @@ $(function() {
 		};
 		$.ajax({
 			type : "post",
-			url : "/publicaciones/valorar",
+			url : window.location.origin+"/FixMyCode/publicaciones/valorar",
 			dataType : "json",
 			contentType : "application/json",
 			data : JSON.stringify(datos),

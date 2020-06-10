@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,7 @@ public class PublicacionesService {
 	 * @return publicaciones
 	 */
 	public List<Publicacion> getByValoraciones() {
-		return repo.findByValoraciones();
+		return repo.findByValoraciones(PageRequest.of(0, 10));
 	}
 	/**
 	 * Devuelve una publicación dado su id

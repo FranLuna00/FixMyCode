@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -34,7 +34,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 	 */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    	 return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 	/**
 	 * Consultas para recoger usuarios de la base de datos
@@ -56,7 +56,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests() // Los recursos estáticos no requieren autenticación
 				.antMatchers("/bootstrap/**", "/css/**", "/img/**", "/js/**").permitAll()
 				// Las vistas públicas no requieren autenticación
-				.antMatchers("/", "/usuarios/**", "/logout", "/publicaciones/**").permitAll()
+				.antMatchers("/", "/home", "/usuarios/**", "/logout", "/publicaciones/**").permitAll()
 				//Vista de gestión de usuarios requiere admin
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				.antMatchers("/publicaciones/nueva", "/publicaciones/valorar", "/publicaciones/respuesta").hasAnyAuthority("REGISTRADO", "ADMIN")

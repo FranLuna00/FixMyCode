@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -53,9 +52,6 @@ public class PublicacionesController {
 	@Autowired
 	private EtiquetasService etiquetasServ;
 
-	@Value("${fixmycode.ruta.archivos}")
-	private String ruta;
-
 	/**
 	 * Redirección a formulario de publicación
 	 * 
@@ -93,10 +89,9 @@ public class PublicacionesController {
 		}
 		Usuario u = usuariosServ.getByUsername(request.getUserPrincipal().getName());
 		publicacion.setUsuario(u);
-		List<Archivo> archivos = null;
+		String ruta = request.getServletContext().getRealPath("/WEB-INF/classes/static/archivos/");
 		for (MultipartFile archivo : multiPart) {
 			if (!archivo.isEmpty()) {
-				 archivos = new ArrayList<>();
 				Archivo a = new Archivo();
 				TipoArchivo tipoArchivoE;
 				switch (FilenameUtils.getExtension(archivo.getOriginalFilename())) {
@@ -127,10 +122,9 @@ public class PublicacionesController {
 				}
 				a.setTipoArchivo(tipoArchivoE);
 				a.setArchivo(Utiles.guardarArchivo(archivo, ruta));
-				archivos.add(a);
+				publicacion.addArchivo(a);
 			}
 		}
-		publicacion.setArchivos(archivos);
 
 		if (etiquetas[0] != 0) {
 			List<Etiqueta> etiquetasObj = new ArrayList<>();
@@ -162,10 +156,19 @@ public class PublicacionesController {
 	 * @return vista detalle publicación
 	 */
 	@GetMapping("/{id}")
-	public String detallePublicacion(Model model, @PathVariable int id) {
+	public String detallePublicacion(Model model, @PathVariable int id, HttpServletRequest request) {
 		Publicacion p = publiServ.getById(id);
 		if (p != null) {
+			List<Texto> textos = new ArrayList<>();
+			String ruta = request.getServletContext().getRealPath("/WEB-INF/classes/static/archivos/");
+			for (Archivo a : p.getArchivos()) {
+				Texto t = new Texto();
+				t.setTexto(a.getTexto(ruta));
+				t.setTipo(a.getTipoArchivo());
+				textos.add(t);
+			}
 			model.addAttribute("publicacion", p);
+			model.addAttribute("textos", textos);
 			return "/publicaciones/detalle";
 		} else {
 			return "/publicaciones/error";
@@ -194,8 +197,10 @@ public class PublicacionesController {
 		publiServ.save(p);
 		return "redirect:/publicaciones/" + id;
 	}
+
 	/**
 	 * Redirige a la vista de búsqueda
+	 * 
 	 * @param model
 	 * @return vista explorar
 	 */
@@ -206,8 +211,10 @@ public class PublicacionesController {
 		model.addAttribute("publicaciones", publicaciones);
 		return "/publicaciones/explorar";
 	}
+
 	/**
 	 * Realiza una búsqueda dados etiquetas y título a buscar
+	 * 
 	 * @param model
 	 * @param etiquetas
 	 * @param busqueda
@@ -231,8 +238,9 @@ public class PublicacionesController {
 				if (!busqueda.equals("")) {
 					publicaciones = publiServ.findByEtiquetasTitulo(etiquetasLista, busqueda);
 				} else {
-				publicaciones = publiServ.findByEtiquetas(etiquetasLista,
-						PageRequest.of(0, 20, Sort.by("fechaPublicacion"))).toList();
+					publicaciones = publiServ
+							.findByEtiquetas(etiquetasLista, PageRequest.of(0, 20, Sort.by("fechaPublicacion")))
+							.toList();
 				}
 			} else {
 				publicaciones = publiServ.findByTituloLike(busqueda);
@@ -242,4 +250,26 @@ public class PublicacionesController {
 		model.addAttribute("etiquetasBuscadas", etiquetasLista);
 		return "/publicaciones/explorar";
 	}
+}
+
+class Texto {
+	private String texto;
+	private TipoArchivo tipo;
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+	public TipoArchivo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoArchivo tipo) {
+		this.tipo = tipo;
+	}
+
 }
