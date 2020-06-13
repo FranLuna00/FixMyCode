@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Examen jQuery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Archivos CSS FONTAWESOME -->
+    <link type="text/css" rel="stylesheet" href="fontawesome/css/all.min.css">
+    <!-- Archivos CSS BOOTSTRAP 4 -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        section {
+            margin: 5em 0;
+        }
+
+        .icono,
+        #iconoPrev {
+            font-size: 30px;
+            color: black;
+        }
+
+        #iconoPrev {
+            font-size: 50px;
+            margin: 0 .5em;
+        }
+
+        td,
+        th {
+            text-align: center;
+            line-height: 50px;
+        }
+
+        input {
+            margin: .5em;
+        }
+
+        .selector {
+            display: flex;
+            align-content: center;
+            flex-direction: row;
+        }
+
+        select {
+            height: 50px;
+            width: 100%;
+            margin: 0 .5em;
+            font-family: 'sans-serif', 'Font Awesome 5 Free';
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header>
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column align-items-center bg-info text-white">
+                        <h1>Examen jQuery</h1>
+                        <h3>Curso 2019/2020</h3>
+                        <h6>IES Albarregas</h6>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <div class="row">
+                <div class="col-sm-5 col-12">
+                    <h3 id="tAccion" class="text-center">Añadir usuario</h3>
+                    <label>ID:</label><input type="text" disabled class="form-control" id="fID">
+                    <label>Nombre:</label><input type="text" class="form-control" id="fNombre">
+                    <label>Apellidos:</label><input type="text" class="form-control" id="fApellidos">
+                    <label>Email:</label><input type="email" class="form-control" id="fEmail">
+                    <label>Icono:</label>
+                    <div class="selector">
+                        <select id="sIconos">
+                            <option>--- Seleccione un icono ---</option>
+                        </select>
+                        <select id="sColores">
+                            <option>--- Seleccione un color ---</option>
+                        </select>
+                        <i id="iconoPrev"></i>
+                    </div>
+
+                    <div class="botones d-inline-flex mt-5">
+                        <button type="button" class="btn btn-primary mx-1" id="boton1">Añadir</button>
+                        <button type="button" class="btn btn-light mx-1" id="boton2">Limpiar</button>
+                    </div>
+                </div>
+                <div class="col-sm-7 col-12">
+                    <h3 class="text-center">Usuarios</h3>
+                    <table class="table table-hover w-75 mx-auto">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Icono</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTabla">
+                            <tr id="fila1">
+                                <th scope="row">1</th>
+                                <td tipo="icono" class="icono"><i id="icono1" class="far fa-surprise"></i></td>
+                                <td tipo="nombre">Antonio</td>
+                                <td tipo="apellidos">Fernández</td>
+                                <td tipo="email">antonio@fernandez.es</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column align-items-center bg-info text-white">
+                        <h6>&copy; Francisco Luna García</h6>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- CDN a jQuery -->
+    <!-- Archivos Javascript: JQUERY, POPPER, BOOTSTRAP -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script> <!-- componente dropdown y tooltip -->
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            // El valor de ID se inicializa con respecto al número de filas que tenemos en la tabla más uno.
+            $("#fID").val($("#cuerpoTabla > tr").length + 1);
+            var iconosJSON = [{
+                unicode: "f5c2",
+                nombre: "far fa-surprise"
+            },
+            {
+                unicode: "f4da",
+                nombre: "far fa-smile-wink"
+            },
+            {
+                unicode: "f5b8",
+                nombre: "far fa-smile-beam"
+            },
+            {
+                unicode: "f5b4",
+                nombre: "far fa-sad-tear"
+            },
+            {
+                unicode: "f5a5",
+                nombre: "far fa-meh-rolling-eyes"
+            },
+            {
+                unicode: "f58c",
+                nombre: "far fa-grin-wink"
+            },
+            {
+                unicode: "f587",
+                nombre: "far fa-grin-stars"
+            },
+            {
+                unicode: "f586",
+                nombre: "far fa-grin-squint-tears"
+            },
+            {
+                unicode: "f584",
+                nombre: "far fa-grin-hearts"
+            },
+            {
+                unicode: "f585",
+                nombre: "far fa-grin-squint"
+            },
+            {
+                unicode: "f582",
+                nombre: "far fa-grin-beam"
+            },
+            {
+                unicode: "f581",
+                nombre: "far fa-grin-alt"
+            },
+            {
+                unicode: "f588",
+                nombre: "far fa-grin-tears"
+            },
+            {
+                unicode: "f597",
+                nombre: "far fa-kiss-beam"
+            },
+            {
+                unicode: "f556",
+                nombre: "far fa-angry"
+            },
+            {
+                unicode: "f598",
+                nombre: "far fa-kiss-wink-heart"
+            },
+            {
+                unicode: "f58a",
+                nombre: "far fa-grin-tongue-squint"
+            }
+            ];
+            var coloresJSON = [{
+                color: "rojo",
+                valor: "rgb(255, 0, 0)"
+            }, {
+                color: "verde",
+                valor: "rgb(0, 255, 0)"
+            }, {
+                color: "azul",
+                valor: "rgb(0, 0, 255)"
+            }, {
+                color: "cyan",
+                valor: "rgb(0, 255, 255)"
+            }, {
+                color: "magenta",
+                valor: "rgb(255, 0, 255)"
+            }, {
+                color: "amarillo",
+                valor: "rgb(255, 255, 0)"
+            }, {
+                color: "negro",
+                valor: "rgb(0, 0, 0)"
+            }];
+
+            /* 
+                EJERCICIO 1
+                
+                Cargar en el selector de colores todos los colores de la variable coloresJSON, ten en cuenta que en el atributo value debes almacenar el valor rgba.
+            */
+            $.each(coloresJSON, function (i, v) {
+                var nombre;
+                var valor;
+                $.each(this, function (index, val) {
+                    switch (index) {
+                        case "color":
+                            nombre = val;
+                            break;
+                        case "valor":
+                            valor = val;
+                            break;
+                        default:
+                            break;
+                    }
+                });
+                $("#sColores").append("<option value = '" + valor + "'>" + nombre + "</option>");
+            });
+
+            /* 
+                EJERCICIO 2
+                
+                Cargar en el selector de iconos todos los iconos de la variable iconosJSON, ten en cuenta que en el atributo value debes almacenar el nombre del icono.
+                Dentro del texto que se mostrará al elegir, deberá aparecer el icono seguido del nombre.            
+                &#xf015;
+            */
+            $.each(iconosJSON, function (i, v) {
+                var unicode;
+                var nombre;
+                $.each(this, function (index, val) {
+                    switch (index) {
+                        case "unicode":
+                            unicode = val;
+                            break;
+                        case "nombre":
+                            nombre = val;
+                            break;
+                        default:
+                            break;
+                    }
+                });
+                $("#sIconos").append("<option value = '" + nombre + "'>&#x" + unicode + "; " + nombre + "</option>");
+            });
+
+            /* 
+                EJERCICIO 3
+                
+                Cada vez que cambie el icono en el selector, deberá actualizarse el icono definido con el identificador #iconoPrev.
+            */
+            $("#sIconos").change(function (e) {
+                var icono = "<i class='" + $(this).children("option:selected").val() + "'></i>"
+                $("#iconoPrev").html(icono);
+            });
+
+            /* 
+                EJERCICIO 4
+                
+                Cada vez que cambie el color del icono en el selector, deberá actualizarse el icono definido con el identificador #iconoPrev.            
+            */
+            $("#sColores").change(function (e) {
+                var color = $(this).children("option:selected").val();
+                $("#iconoPrev > i").css("color", color);
+            });
+
+            /*
+                EJERCICIO 5:
+                
+                Cada vez que hagamos click sobre una fila de la tabla usuarios, pasaremos al modo de "Modificar Usuario", apareciendo todos los datos del usuario en el formulario 
+                y cambiando los botones "añadir"->"modificar" y "limpiar"->"eliminar".
+            */
+            $("tbody").on("click", "tr", function (e) {
+                if ($("#boton1").hasClass("btn-primary")) {
+
+                    cambiarBotones();
+                }
+                var id, icono, nombre, apellidos, email, idFila;
+                idFila = "#" + $(this).attr("id");
+                var fila = $(idFila);
+                id = fila.find("th").text();
+                icono = fila.find("td[tipo='icono']");
+                nombre = fila.find("td[tipo='nombre']").text();
+                apellidos = fila.find("td[tipo='apellidos']").text();
+                email = fila.find("td[tipo='email']").text();
+                $("#fID").val(id);
+                $("#fNombre").val(nombre);
+                $("#fApellidos").val(apellidos);
+                $("#fEmail").val(email);
+                $("#iconoPrev").html(icono.html());
+                //Selecciona el icono actual
+                var nombreIcono = icono.find("i").attr("class");
+                $("#sIconos").find("option[value='"+nombreIcono+"']").prop("selected", true);
+                var colorIcono = icono.find("i").css("color");
+                $("#sColores").find("option[value='"+colorIcono+"']").prop("selected", true);
+            });
+
+            /* 
+                EJERCICIO 6
+            
+                El botón identificado como #boton1 deberá comportarse de dos maneras distintas según el momento: añadir usuario / modificar usuario. 
+                Recuerda que el botón con funcionalidad "añadir" debe pertenecer a la clase btn-primary, mientras que el botón con funcionalidad "modificar" 
+                debe pertenecer a la clase btn-success; esto te ayudará a diferenciar los dos comportamientos.
+            
+                    AÑADIR: a la hora de añadir un usuario nuevo, no importa que quede algún campo vacío, ya que podremos modificarlo en cualquier momento.
+            
+                    MODIFICAR: cuando modificamos una fila, esta debe permanecer en la misma posición, lo que quiere decir que no podemos eliminar e insertar de nuevo.
+                    La idea es que sobreescribas el código html que se encuentra en la fila a modificar. Una vez modificado, los botones se restauran al modo de añadir nuevo usuario.
+            
+                Cada vez que finalizamos el proceso de añadir/modificar, debemos quedar limpio el formulario para la siguiente acción.
+            */
+            $("#boton1").click(function (e) {
+                var id, nombre, apellidos, email, icono;
+                id = $("#fID").val();
+                nombre = $("#fNombre").val();
+                apellidos = $("#fApellidos").val();
+                email = $("#fEmail").val();
+                icono = $("#iconoPrev").html();
+                if ($(this).hasClass("btn-primary")) {
+                    var fila = "<tr id='fila" + id + "'>\
+                                    <th scope='row'>"+ id + "</th>\
+                                    <td tipo='icono' class='icono'>"+ icono + "</td>\
+                                    <td tipo='nombre'>"+ nombre + "</td>\
+                                    <td tipo='apellidos'>"+ apellidos + "</td>\
+                                    <td tipo='email'>"+ email + "</td>\
+                                </tr>";
+                    $("#cuerpoTabla").append(fila);
+                } else {
+                    var idFila = "#fila" + id;
+                    $(idFila).find("td[tipo='icono']").html(icono);
+                    $(idFila).find("td[tipo='nombre']").text(nombre);
+                    $(idFila).find("td[tipo='apellidos']").text(apellidos);
+                    $(idFila).find("td[tipo='email']").text(email);
+                    cambiarBotones();
+                }
+                LimpiarFormulario();
+            });
+
+            /*
+                EJERCICIO 7:
+                
+                El botón identificado como #boton2 deberá comportarse de dos maneras distintas según el momento: limpiar formulario / eliminar usuario. 
+                Recuerda que el botón con funcionalidad "limpiar" debe pertenecer a la clase btn-light, mientras que el botón con funcionalidad "eliminar" 
+                debe pertenecer a la clase btn-danger; esto te ayudará a diferenciar los dos comportamientos. 
+                
+                    LIMPIAR: Únicamente limpia todos los campos de formulario para permitir la inserción de nuevos usuarios.
+                    
+                    ELIMINAR: Elimina la fila con el usuario. Cuando termine, deberá restaurar los botones para que se pueda añadir nuevos usuarios. 
+                    Por último deberá limpiar todos los campos de formulario.
+            */
+            $("#boton2").click(function (e) {
+                if ($(this).hasClass("btn-danger")) {
+                    var idFila = "#fila" + $("#fID").val();
+                    $(idFila).remove();
+                    cambiarBotones();
+                }
+                LimpiarFormulario();
+            });
+
+
+            /*
+                EJERCICIO 8
+                
+                Para conseguir un código mucho más limpio, crea una función sin parámetros que se llame LimpiarFormulario. 
+                En esta función deberás borrar todos los campos para permitir nuevos datos.
+            */
+            function LimpiarFormulario() {
+                $("input").val("");
+                $("#sIconos option:first").prop("selected", true);
+                $("#sColores option:first").prop("selected", true);
+                $("#iconoPrev").html("");
+                // Esta primera parte controla el atributo ID de la tabla.
+                if ($("#cuerpoTabla > tr").length > 0) {
+                    $("#fID").val(parseInt($("#cuerpoTabla tr:last").children("th").text()) + 1);
+                } else {
+                    $("#fID").val("1");
+                }
+            }
+
+            /*
+                EJERCICIO 9
+                
+                Para conseguir un código mucho más limpio, crea una función sin parámetros que se llame cambiarModo. 
+                En esta función, deberás comprobar qué tipo de botón está definido, y en base a ello, cambiar el modo. 
+                Por ejemplo, si el botón pertenece a la clase btn-primary, significa que estamos en modo "Añadir" y por tanto deberemos cambiar todo a Modificar. 
+            */
+            function cambiarBotones() {
+                var boton1 = $("#boton1");
+                var boton2 = $("#boton2");
+                if (boton1.hasClass("btn-primary")) {
+                    $("#tAccion").text("Modificar usuario");
+                    boton1.removeClass("btn-primary");
+                    boton1.addClass("btn-success");
+                    boton1.text("Modificar");
+                    boton2.removeClass("btn-light");
+                    boton2.addClass("btn-danger");
+                    boton2.text("Eliminar");
+                } else {
+                    $("#tAccion").text("Añadir usuario");
+                    boton1.removeClass("btn-success");
+                    boton1.addClass("btn-primary");
+                    boton1.text("Añadir");
+                    boton2.removeClass("btn-danger");
+                    boton2.addClass("btn-light");
+                    boton2.text("Limpiar");
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

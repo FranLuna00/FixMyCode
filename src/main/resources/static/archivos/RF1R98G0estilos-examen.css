@@ -1,0 +1,192 @@
+@font-face {
+  font-family: AmalfiCoast;
+  src: url(../fonts/AmalfiCoast.ttf); }
+@font-face {
+  font-family: Roboto-Bold;
+  src: url(../fonts/Roboto-Bold.ttf); }
+@font-face {
+  font-family: Roboto-Regular;
+  src: url(../fonts/Roboto-Regular.ttf); }
+@font-face {
+  font-family: Sherlyn;
+  src: url(../fonts/Sherlyn.otf); }
+html {
+  font-family: Roboto-Regular, Roboto-Bold; }
+  html a {
+    color: #7e657a; }
+    html a:hover {
+      color: gray; }
+  html section {
+    text-align: center;
+    padding: 5em 0; }
+    html section h1 {
+      color: #7e657a;
+      font-size: 3em;
+      padding: 1em 0; }
+
+header {
+  background-image: url(../images/landing.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center; }
+  header #overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    min-width: 100%;
+    background-image: linear-gradient(to top, #7e657a, rgba(255, 255, 255, 0)); }
+  header blockquote {
+    font-family: Sherlyn !important;
+    font-size: 2em !important;
+    color: #f2eff1 !important;
+    padding: 0 1em;
+    position: absolute;
+    bottom: 0;
+    right: 0; }
+    header blockquote p {
+      text-shadow: 2px 2px 8px #000;
+      margin-top: 40%; }
+    header blockquote footer {
+      color: #f2eff1 !important; }
+
+nav {
+  background-color: #f2eff1;
+  opacity: 95%; }
+  nav .navbar-brand img {
+    max-height: 100px; }
+  nav .navbar-brand p {
+    font-family: AmalfiCoast;
+    font-weight: bold;
+    font-size: 1em;
+    color: #7e657a; }
+  nav button {
+    color: #7e657a !important;
+    border: 1px solid #7e657a !important; }
+  nav input::placeholder {
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900 !important; }
+
+#categorias .contenedorImg img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 100%;
+  border: 2px solid #f2eff1;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
+  transition: 0.4s; }
+#categorias .contenedorImg .textoImg {
+  font-family: AmalfiCoast;
+  font-size: 1.4em;
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  line-height: 250px;
+  text-align: center;
+  color: #f2eff1;
+  transition: 0.6s;
+  opacity: 0;
+  border-radius: 100%; }
+  #categorias .contenedorImg .textoImg span {
+    position: absolute;
+    right: 0;
+    transition: .6s; }
+  #categorias .contenedorImg .textoImg:hover {
+    opacity: .7;
+    background-color: #7e657a; }
+    #categorias .contenedorImg .textoImg:hover span {
+      opacity: 1;
+      transform: translateX(-90px);
+      background-color: transparent; }
+#categorias blockquote {
+  font-family: Roboto-Bold;
+  padding-top: 1em; }
+
+#donaciones {
+  background-color: #f2eff1; }
+  #donaciones button {
+    font-weight: bold;
+    background-color: #7e657a;
+    color: #f2eff1;
+    transition: 0.2s; }
+    #donaciones button:hover {
+      background-color: #f2eff1;
+      color: #7e657a;
+      border: 1px solid #7e657a; }
+  #donaciones .progress {
+    margin: 1em auto;
+    height: 2em;
+    max-width: 95%;
+    background-color: lightgray !important;
+    color: #7e657a !important;
+    padding: 0; }
+    #donaciones .progress .progress-bar {
+      font-weight: bold;
+      border-radius: 5px 0 0 5px;
+      background-color: #7e657a !important; }
+
+#acerca-de img {
+  max-height: 120px;
+  padding-bottom: 2em; }
+#acerca-de iframe {
+  padding-bottom: 3em; }
+
+#valoraciones {
+  background-color: #f2eff1; }
+  #valoraciones img {
+    max-height: 100px;
+    border-radius: 5%;
+    box-shadow: 4px 4px 8px 5px gray;
+    margin-bottom: 1em; }
+  #valoraciones .fecha {
+    color: #7e657a;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-top: 1em; }
+  #valoraciones blockquote {
+    margin-top: 1em; }
+    @media screen and (max-width: 992px) {
+      #valoraciones blockquote {
+        margin-bottom: 3em; } }
+    #valoraciones blockquote p {
+      font-family: Roboto-Bold;
+      font-style: italic; }
+  #valoraciones .star {
+    color: #e6e600; }
+  #valoraciones .empty-star {
+    color: #333300; }
+
+#pie-pagina {
+  font-weight: 400;
+  background-color: #7e657a;
+  padding: 1em 3em;
+  color: #f2eff1; }
+  #pie-pagina h2 {
+    font-size: 1.5em;
+    font-family: Roboto-Bold; }
+  #pie-pagina i {
+    font-weight: 400; }
+  #pie-pagina a,
+  #pie-pagina li,
+  #pie-pagina i {
+    color: #f2eff1;
+    text-decoration: none;
+    transition: 0.2s; }
+    #pie-pagina a:hover,
+    #pie-pagina li:hover,
+    #pie-pagina i:hover {
+      color: #d0c5cc; }
+  #pie-pagina img {
+    max-height: 120px;
+    filter: invert(1); }
+  #pie-pagina img ~ h2 {
+    margin-top: 0.6em;
+    font-size: 1em;
+    font-family: AmalfiCoast; }
+  #pie-pagina #copy {
+    font-size: 0.75em; }
+
+/*# sourceMappingURL=estilos-examen.css.map */

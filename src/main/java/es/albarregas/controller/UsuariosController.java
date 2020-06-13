@@ -100,8 +100,8 @@ public class UsuariosController {
 			result.addError(new ObjectError("Email", "El email no puede estar vacío o repetido"));
 			error = true;
 		}
-		if (usuario.getPasswd().length() < 6) {
-			result.addError(new ObjectError("Contraseña errónea", "La contraseña debe tener al menos 7 caracteres"));
+		if (usuario.getPasswd().length() < 4) {
+			result.addError(new ObjectError("Contraseña errónea", "La contraseña debe tener al menos 4 caracteres"));
 			error = true;
 		}
 		if (!multiPart.isEmpty()) {

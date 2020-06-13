@@ -16,21 +16,23 @@ import es.albarregas.service.UsuariosService;
 
 /**
  * Controlador para peticiones de usuario registrado como administrador
+ * 
  * @author Fran Luna
  *
  */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	private EtiquetasService etiquetasServ;
 
 	@Autowired
 	private UsuariosService usuariosServ;
-	
+
 	/**
 	 * Redirige a la gestión de etiquetas
+	 * 
 	 * @param model
 	 * @return vista gestión de etiquetas
 	 */
@@ -39,8 +41,10 @@ public class AdminController {
 		model.addAttribute("etiquetas", etiquetasServ.findAll());
 		return "/admin/etiquetas";
 	}
+
 	/**
 	 * Borra una etiqueta
+	 * 
 	 * @param id
 	 * @return vista gestión de etiquetas
 	 */
@@ -49,20 +53,31 @@ public class AdminController {
 		etiquetasServ.deleteById(id);
 		return "redirect:/admin/etiquetas";
 	}
+
 	/**
 	 * Añade una etiqueta
+	 * 
 	 * @param nombre
 	 * @return vista gestión de etiquetas
 	 */
 	@PostMapping("/etiquetas/nueva")
-	public String nuevaEtiqueta(@RequestParam(name = "nombre") String nombre) {
-		Etiqueta etiqueta = new Etiqueta();
-		etiqueta.setNombre(nombre);
-		etiquetasServ.save(etiqueta);
+	public String nuevaEtiqueta(@RequestParam(name = "nombre") String nombre, Model model) {
+		try {
+			if (!nombre.equals("")) {
+				Etiqueta etiqueta = new Etiqueta();
+				etiqueta.setNombre(nombre);
+				etiquetasServ.save(etiqueta);
+			}
+		} catch (Exception e) {
+			model.addAttribute("errorMsg", "El nombre no puede tener más de 20 caracteres");
+		}
+
 		return "redirect:/admin/etiquetas";
 	}
+
 	/**
 	 * Redirige a la gestión de usuarios
+	 * 
 	 * @param model
 	 * @return vista gestión de usuarios
 	 */
@@ -71,8 +86,10 @@ public class AdminController {
 		model.addAttribute("usuarios", usuariosServ.get());
 		return "/admin/usuarios";
 	}
+
 	/**
 	 * Borra un usuario y desvincula sus publicaciones del mismo
+	 * 
 	 * @param username
 	 * @return vista gestión de usuarios
 	 */
@@ -81,8 +98,10 @@ public class AdminController {
 		usuariosServ.borrarPorUsername(username);
 		return "redirect:/admin/usuarios";
 	}
+
 	/**
 	 * Deshabilita un usuario
+	 * 
 	 * @param username
 	 * @return vista gestión de usuarios
 	 */
@@ -97,6 +116,5 @@ public class AdminController {
 		usuariosServ.save(u);
 		return "redirect:/admin/usuarios";
 	}
-	
 
 }

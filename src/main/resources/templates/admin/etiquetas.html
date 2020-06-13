@@ -13,6 +13,7 @@
 
 	<div class="container">
 		<div class="row">
+			<div th:if="${errorMsg != null}" class="col-12 text-danger h4" th:text="${errorMsg}"></div>
 			<div class="col-12 col-md-4 my-2 border border-info rounded" th:each="etiqueta : ${etiquetas}">
 				<span class="lead" th:text="${etiqueta.nombre}"></span>
 				<a th:href="@{/admin/etiquetas/borrar/{id} (id= ${etiqueta.id})}" class="btn btn-danger float-right">Eliminar</a>
