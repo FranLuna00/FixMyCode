@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `fixmycode` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `fixmycode`;
 -- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: fixmycode
@@ -24,10 +26,10 @@ DROP TABLE IF EXISTS `archivos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `archivos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `archivo` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `tipoArchivo` enum('MARCA','JAVASCRIPT','CSS','SASS','JAVA','SQL','PROPERTIES') COLLATE utf8_spanish_ci DEFAULT NULL,
+  `archivo` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
+  `tipoArchivo` enum('MARCA','JAVASCRIPT','CSS','SASS','JAVA','SQL','PROPERTIES') CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +38,7 @@ CREATE TABLE `archivos` (
 
 LOCK TABLES `archivos` WRITE;
 /*!40000 ALTER TABLE `archivos` DISABLE KEYS */;
-INSERT INTO `archivos` VALUES (10,'OGG92G8DAjax.java','JAVA'),(11,'SC5HBBXZalumnosAjax.jsp','JAVA'),(12,'HBF1QDDQapplication.properties','PROPERTIES'),(13,'8ZQVD4W0factorial.java','JAVA'),(14,'6SD2354Rcreate_database_fixmycode.sql','SQL'),(15,'YT725CMDControlador.java','JAVA'),(16,'GIPHKOVGCuotaEdificio.java','JAVA'),(17,'67K77NOBejercicio1_examen.html','MARCA'),(18,'YRGZ9PGPmain.js','JAVASCRIPT'),(19,'RF1R98G0estilos-examen.css','CSS');
+INSERT INTO `archivos` VALUES (10,'OGG92G8DAjax.java','JAVA'),(11,'SC5HBBXZalumnosAjax.jsp','JAVA'),(12,'HBF1QDDQapplication.properties','PROPERTIES'),(13,'8ZQVD4W0factorial.java','JAVA'),(14,'6SD2354Rcreate_database_fixmycode.sql','SQL'),(15,'YT725CMDControlador.java','JAVA'),(16,'GIPHKOVGCuotaEdificio.java','JAVA'),(17,'67K77NOBejercicio1_examen.html','MARCA'),(18,'YRGZ9PGPmain.js','JAVASCRIPT'),(19,'RF1R98G0estilos-examen.css','CSS'),(20,'1TS21RH6holamundo.java','JAVA');
 /*!40000 ALTER TABLE `archivos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,7 +51,7 @@ DROP TABLE IF EXISTS `etiquetas`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `etiquetas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -73,7 +75,7 @@ DROP TABLE IF EXISTS `perfiles`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `perfiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rol` enum('REGISTRADO','ADMIN') COLLATE utf8_spanish_ci DEFAULT NULL,
+  `rol` enum('REGISTRADO','ADMIN') CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -97,14 +99,14 @@ DROP TABLE IF EXISTS `publicaciones`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `publicaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `detalles` varchar(600) COLLATE utf8_spanish_ci NOT NULL,
+  `detalles` varchar(600) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `fechaPublicacion` datetime(6) DEFAULT NULL,
-  `titulo` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  `titulo` varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKcuualw35fb3065r7mjiijb898` (`usuario_id`),
   CONSTRAINT `FKcuualw35fb3065r7mjiijb898` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +115,7 @@ CREATE TABLE `publicaciones` (
 
 LOCK TABLES `publicaciones` WRITE;
 /*!40000 ALTER TABLE `publicaciones` DISABLE KEYS */;
-INSERT INTO `publicaciones` VALUES (11,'Necesito ayuda con esta petición AJAX, que no responde correctamente','2020-06-13 17:17:09.968000','Ajax responde con error 500',14),(12,'Aquí dejo el archivo de configuración de Spring para crear el data source','2020-06-13 17:21:01.754000','Data Source con Spring',15),(13,'Cómo realizar el factorial de un número con Java','2020-06-13 17:25:39.043000','Factorial de un número',16),(14,'Esta es la base de datos de mi aplicación, ¿debería cambiar algo?','2020-06-13 17:32:12.958000','Script de creación de base de datos',17),(15,'Me salta esta excepción cuando intento enviar el seguro de un edificio','2020-06-13 17:41:09.990000','ClassNotFoundException',18),(16,'Dejo un ejercicio para modificar, añadir y eliminar usuarios de una tabla. Requiere Bootstrap 4 y FontAwesome','2020-06-13 17:58:51.755000','Añadir y modificar usuarios en tabla con JQuery',19),(18,'Esta hoja de estilos puede facilmente utilizarse para las vistas de un CRUD simple','2020-06-13 18:03:24.603000','Hoja de estilos para CRUD',20);
+INSERT INTO `publicaciones` VALUES (11,'Necesito ayuda con esta petición AJAX, que no responde correctamente','2020-06-13 17:17:09.968000','Ajax responde con error 500',14),(12,'Aquí dejo el archivo de configuración de Spring para crear el data source','2020-06-13 17:21:01.754000','Data Source con Spring',15),(13,'Cómo realizar el factorial de un número con Java','2020-06-13 17:25:39.043000','Factorial de un número',16),(14,'Esta es la base de datos de mi aplicación, ¿debería cambiar algo?','2020-06-13 17:32:12.958000','Script de creación de base de datos',17),(15,'Me salta esta excepción cuando intento enviar el seguro de un edificio','2020-06-13 17:41:09.990000','ClassNotFoundException',18),(16,'Dejo un ejercicio para modificar, añadir y eliminar usuarios de una tabla. Requiere Bootstrap 4 y FontAwesome','2020-06-13 17:58:51.755000','Añadir y modificar usuarios en tabla con JQuery',19),(18,'Esta hoja de estilos puede facilmente utilizarse para las vistas de un CRUD simple','2020-06-13 18:03:24.603000','Hoja de estilos para CRUD',20),(19,'Hola mundo en Java','2020-06-14 16:47:34.218000','Hola mundo',14);
 /*!40000 ALTER TABLE `publicaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +142,7 @@ CREATE TABLE `publicaciones_archivos` (
 
 LOCK TABLES `publicaciones_archivos` WRITE;
 /*!40000 ALTER TABLE `publicaciones_archivos` DISABLE KEYS */;
-INSERT INTO `publicaciones_archivos` VALUES (11,10),(11,11),(12,12),(13,13),(14,14),(15,15),(15,16),(16,17),(16,18),(18,19);
+INSERT INTO `publicaciones_archivos` VALUES (11,10),(11,11),(12,12),(13,13),(14,14),(15,15),(15,16),(16,17),(16,18),(18,19),(19,20);
 /*!40000 ALTER TABLE `publicaciones_archivos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +169,7 @@ CREATE TABLE `publicaciones_etiquetas` (
 
 LOCK TABLES `publicaciones_etiquetas` WRITE;
 /*!40000 ALTER TABLE `publicaciones_etiquetas` DISABLE KEYS */;
-INSERT INTO `publicaciones_etiquetas` VALUES (12,9),(13,4),(14,8),(15,4),(16,7),(18,10);
+INSERT INTO `publicaciones_etiquetas` VALUES (12,9),(13,4),(14,8),(15,4),(16,7),(18,10),(19,4);
 /*!40000 ALTER TABLE `publicaciones_etiquetas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,7 +223,7 @@ CREATE TABLE `publicaciones_valoraciones` (
 
 LOCK TABLES `publicaciones_valoraciones` WRITE;
 /*!40000 ALTER TABLE `publicaciones_valoraciones` DISABLE KEYS */;
-INSERT INTO `publicaciones_valoraciones` VALUES (11,26),(11,28),(12,29),(13,24),(13,25),(13,27),(16,30),(18,31);
+INSERT INTO `publicaciones_valoraciones` VALUES (11,26),(11,28),(12,29),(13,24),(13,25),(13,27),(16,30),(18,31),(19,32);
 /*!40000 ALTER TABLE `publicaciones_valoraciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +236,7 @@ DROP TABLE IF EXISTS `respuestas`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `respuestas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `respuesta` varchar(400) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `respuesta` varchar(400) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
   `publicacion_id` int(11) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -264,12 +266,12 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `avatar` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `enabled` int(11) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `passwd` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `username` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `passwd` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `idPerfil` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_usuarios_Email` (`email`),
@@ -285,7 +287,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (13,'avatar.png','admin@admin.es',1,'Administrador','{noop}1234','admin',4),(14,'avatar.png','jpacheco@gmail.com',1,'Jorge Pacheco','{noop}1234','jpacheco',3),(15,'avatar.png','almag00@gmail.es',1,'Alma Guzmán','{noop}1234','almag00',3),(16,'SJV9EX5PtuxGandalf.png','pepep@gmail.com',1,'Pepe Playa','{noop}1234','pepep',3),(17,'avatar.png','rsanchez99@gmail.com',1,'Roberto Sánchez','{noop}1234','rsanchez99',3),(18,'I48FD5TGtuxBorraxo.png','marcosa99@gmail.com',1,'Marcos Arenas','{noop}1234','marcosa99',3),(19,'avatar.png','ramonn@gmail.com',1,'Ramón Nuñez','{noop}1234','ramonn',3),(20,'avatar.png','julianm@gmail.com',1,'Julián Marea','{noop}1234','julianm',3);
+INSERT INTO `usuarios` VALUES (13,'avatar.png','admin@admin.es',1,'Administrador','{noop}1234','admin',4),(14,'avatar.png','jpacheco@gmail.com',1,'Jorge Pacheco','{bcrypt}$2a$10$3ut66RtZjW/DUyWpMlv5L.vSFPfrkId8j9CExiGbcxjXAgvYOok9W','jpacheco',3),(15,'avatar.png','almag00@gmail.es',1,'Alma Guzmán','{noop}1234','almag00',3),(16,'SJV9EX5PtuxGandalf.png','pepep@gmail.com',1,'Pepe Playa','{noop}1234','pepep',3),(17,'avatar.png','rsanchez99@gmail.com',1,'Roberto Sánchez','{noop}1234','rsanchez99',3),(18,'I48FD5TGtuxBorraxo.png','marcosa99@gmail.com',1,'Marcos Arenas','{noop}1234','marcosa99',3),(19,'avatar.png','ramonn@gmail.com',1,'Ramón Nuñez','{noop}1234','ramonn',3),(20,'avatar.png','julianm@gmail.com',1,'Julián Marea','{noop}1234','julianm',3);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +314,7 @@ CREATE TABLE `usuarios_publicaciones` (
 
 LOCK TABLES `usuarios_publicaciones` WRITE;
 /*!40000 ALTER TABLE `usuarios_publicaciones` DISABLE KEYS */;
-INSERT INTO `usuarios_publicaciones` VALUES (14,11),(15,12),(16,13),(17,14),(18,15),(19,16),(20,18);
+INSERT INTO `usuarios_publicaciones` VALUES (14,11),(14,19),(15,12),(16,13),(17,14),(18,15),(19,16),(20,18);
 /*!40000 ALTER TABLE `usuarios_publicaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,12 +327,12 @@ DROP TABLE IF EXISTS `valoraciones`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `valoraciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `valoracion` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `valoracion` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKmtbedrv2q0wjdsrvnb57g8whw` (`usuario_id`),
   CONSTRAINT `FKmtbedrv2q0wjdsrvnb57g8whw` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,7 +341,7 @@ CREATE TABLE `valoraciones` (
 
 LOCK TABLES `valoraciones` WRITE;
 /*!40000 ALTER TABLE `valoraciones` DISABLE KEYS */;
-INSERT INTO `valoraciones` VALUES (24,'POSITIVA',16),(25,'POSITIVA',15),(26,'NEGATIVA',15),(27,'POSITIVA',17),(28,'NEGATIVA',17),(29,'POSITIVA',17),(30,'POSITIVA',19),(31,'NEGATIVA',20);
+INSERT INTO `valoraciones` VALUES (24,'POSITIVA',16),(25,'POSITIVA',15),(26,'NEGATIVA',15),(27,'POSITIVA',17),(28,'NEGATIVA',17),(29,'POSITIVA',17),(30,'POSITIVA',19),(31,'NEGATIVA',20),(32,'POSITIVA',14);
 /*!40000 ALTER TABLE `valoraciones` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -352,4 +354,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-13 20:10:55
+-- Dump completed on 2020-06-16 19:53:36
